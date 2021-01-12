@@ -78,8 +78,13 @@ public class ArrayDeque<T> {
 
     public void resize_decrement(int newLength) {
         T[] newArray = (T[]) new Object[newLength];
-        System.arraycopy(array, start + 1, newArray, 0, array.length - start - 1);
-        System.arraycopy(array, 0, newArray, array.length - start - 1, end);
+        if (end < start) {
+            System.arraycopy(array, addOne(start), newArray, 0, array.length - start - 1);
+            System.arraycopy(array, 0, newArray, array.length - start - 1, end);
+        }
+        else {
+            System.arraycopy(array, addOne(start), newArray, 0, end - start - 1);
+        }
         array = newArray;
         start = newLength - 1;
         end = size;
@@ -107,7 +112,7 @@ public class ArrayDeque<T> {
         T res = array[end];
         array[end] = null;
         size -= 1;
-        if (array.length >= 16 && size / array.length < 0.25) {
+        if (array.length >= 16 && Double.valueOf(size) / array.length < 0.25) {
             resize_decrement(array.length / 2);
         }
         return res;
@@ -128,13 +133,13 @@ public class ArrayDeque<T> {
     public int length() {
         return array.length;
     }
-/**
+
     public static void main(String[] args) {
         ArrayDeque<Integer> deque = new ArrayDeque();
         //deque.addFirst(1);
         System.out.println(deque.removeFirst());
         System.out.println(deque.removeLast());
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 14; i++) {
             deque.addFirst(i);
         }
         //System.out.println(deque.removeFirst());
@@ -145,14 +150,14 @@ public class ArrayDeque<T> {
         System.out.println(deque.get(0));
         System.out.println(deque.get(-1));
         System.out.println(deque.get(8));
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 11; i++) {
             deque.removeLast();
         }
-        System.out.println(deque.removeLast());
+        //System.out.println(deque.removeLast());
         deque.printDeque();
         System.out.println();
         System.out.println(deque.length());
         //System.out.println(deque.size);
     }
- */
+
 }

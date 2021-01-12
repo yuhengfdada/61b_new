@@ -133,7 +133,7 @@ public class ArrayDeque<T> {
     private int length() {
         return array.length;
     }
-
+/**
     public static void main(String[] args) {
         ArrayDeque<Integer> deque = new ArrayDeque();
         //deque.addFirst(1);
@@ -159,5 +159,5 @@ public class ArrayDeque<T> {
         System.out.println(deque.length());
         //System.out.println(deque.size);
     }
-
+*/
 }

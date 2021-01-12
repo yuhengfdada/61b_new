@@ -98,7 +98,7 @@ public class ArrayDeque<T> {
         T res = array[start];
         array[start] = null;
         size -= 1;
-        if (array.length >= 16 && size / array.length < 0.25) {
+        if (array.length >= 16 && Double.valueOf(size) / array.length < 0.25) {
             resize_decrement(array.length / 2);
         }
         return res;

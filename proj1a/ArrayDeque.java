@@ -1,8 +1,8 @@
 public class ArrayDeque<T> {
-    public T[] array;
-    public int size;
-    public int start;
-    public int end;
+    private T[] array;
+    private int size;
+    private int start;
+    private int end;
 
     public ArrayDeque() {
         array = (T[]) new Object[8];
@@ -21,7 +21,7 @@ public class ArrayDeque<T> {
         else return start + 1;
     }
 
-    public void resize_increment(int newLength) {
+    private void resize_increment(int newLength) {
         end = start + 1;
         T[] newArray = (T[]) new Object[newLength];
         System.arraycopy(array, end, newArray, 0, array.length - end);
@@ -76,7 +76,7 @@ public class ArrayDeque<T> {
         }
     }
 
-    public void resize_decrement(int newLength) {
+    private void resize_decrement(int newLength) {
         T[] newArray = (T[]) new Object[newLength];
         if (end < start) {
             System.arraycopy(array, addOne(start), newArray, 0, array.length - start - 1);
@@ -130,7 +130,7 @@ public class ArrayDeque<T> {
         return array[p];
     }
 /** For test purposes */
-    public int length() {
+    private int length() {
         return array.length;
     }
 

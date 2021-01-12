@@ -1,5 +1,5 @@
 public class LinkedListDeque<T> {
-    public class DequeNode {
+    private class DequeNode {
         public DequeNode prev;
         public T item;
         public DequeNode next;
@@ -10,8 +10,8 @@ public class LinkedListDeque<T> {
             next = n;
         }
     }
-    public DequeNode sentinel;
-    public int size;
+    private DequeNode sentinel;
+    private int size;
 
     public LinkedListDeque() {
         sentinel = new DequeNode(null, null, null);

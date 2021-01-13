@@ -77,4 +77,11 @@ public class IntListTest {
         assertNotEquals(IntList.of(1, 2, 3), A);
         assertEquals(null, IntList.reverse(null));
     }
+
+    @Test
+    public void testTest() {
+        IntList A = IntList.of(1, 2, 3);
+        IntList B = IntList.of(1, 2, 3);
+        assertEquals(A, B);
+    }
 }

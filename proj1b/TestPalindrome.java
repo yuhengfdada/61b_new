@@ -21,31 +21,6 @@ public class TestPalindrome {
     }
 
     @Test
-    public void testAnotherPalindrome() {
-        OffByOne obo = new OffByOne();
-
-        /** old tests */
-        String a = "anxjkalshnhdui";
-        String b = "";
-        String c = " ";
-        String d = "$%^&189  ahdndha  981&^%$";
-        String e = "$%^&189  ahddha  981&^%$";
-        assertFalse(palindrome.isPalindrome(a,obo));
-        assertTrue(palindrome.isPalindrome(b,obo));
-        assertTrue(palindrome.isPalindrome(c,obo));
-        assertFalse(palindrome.isPalindrome(d,obo));
-        assertFalse(palindrome.isPalindrome(e,obo));
-
-        /** new tests */
-        String f = "abABab";
-        String g = "araqb";
-        String h = "%#$&";
-        assertTrue(palindrome.isPalindrome(f,obo));
-        assertTrue(palindrome.isPalindrome(g,obo));
-        assertTrue(palindrome.isPalindrome(h,obo));
-    }
-
-    @Test
     public void testWordToDeque() {
         Deque d = palindrome.wordToDeque("persiflage");
         String actual = "";

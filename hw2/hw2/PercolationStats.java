@@ -2,6 +2,7 @@ package hw2;
 
 import edu.princeton.cs.introcs.StdRandom;
 import edu.princeton.cs.introcs.StdStats;
+import edu.princeton.cs.introcs.Stopwatch;
 
 public class PercolationStats {
     private Percolation p;
@@ -49,4 +50,9 @@ public class PercolationStats {
         return StdStats.mean(data) + 1.96 * StdStats.stddev(data) / Math.sqrt(numTrials);
     }
 
+    public static void main(String[] args) {
+        Stopwatch s = new Stopwatch();
+        PercolationStats ps = new PercolationStats(Integer.parseInt(args[0]),Integer.parseInt(args[1]),new PercolationFactory());
+        System.out.println(s.elapsedTime());
+    }
 }

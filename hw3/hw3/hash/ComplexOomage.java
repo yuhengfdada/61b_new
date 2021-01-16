@@ -6,12 +6,13 @@ import java.awt.Color;
 import edu.princeton.cs.algs4.StdRandom;
 
 public class ComplexOomage implements Oomage {
-    protected List<Integer> params;
+    protected List<Integer> params; // List of integers that each ranges from 0 to 255.
     private static final double WIDTH = 0.05;
 
     @Override
     public int hashCode() {
         int total = 0;
+        /* unique hash code. */
         for (int x : params) {
             total = total * 256;
             total = total + x;

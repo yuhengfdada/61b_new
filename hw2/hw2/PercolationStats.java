@@ -5,9 +5,9 @@ import edu.princeton.cs.introcs.StdStats;
 
 public class PercolationStats {
     private Percolation p;
-    int N;
-    int numTrials;
-    double[] data;
+    private int N;
+    private int numTrials;
+    private double[] data;
 
 
     // perform T independent experiments on an N-by-N grid
@@ -25,7 +25,7 @@ public class PercolationStats {
             while (!p.percolates()) {
                 p.open(StdRandom.uniform(N),StdRandom.uniform(N));
             }
-            data[i] = p.numberOfOpenSites();
+            data[i] = p.numberOfOpenSites() / (N * N);
         }
     }
 

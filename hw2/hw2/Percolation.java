@@ -18,16 +18,18 @@ public class Percolation {
     private int[] status; // 0 means BLOCKED, 1 means OPEN
     private int N;
     private int ceiling;
+    private int floor;
     private int openCount = 0;
-    private boolean percolated = false;
+
 
     // create N-by-N grid, with all sites initially blocked
     public Percolation(int N) {
         if (N <= 0) throw new IllegalArgumentException();
-        uf = new WeightedQuickUnionUF(N * N + 1);
+        uf = new WeightedQuickUnionUF(N * N + 2);
         status = new int[N * N];
         this.N = N;
         this.ceiling = N*N;
+        this.floor = N*N+1;
     }
 
     // open the site (row, col) if it is not open already
@@ -58,19 +60,12 @@ public class Percolation {
     // does the system percolate?
     public boolean percolates() {
         /* Right now takes linear time. */
-        if (percolated) return true;
-        for (int col = 0; col <= N - 1; col++) {
-            if (isFull(N - 1, col)){
-                percolated = true;
-                return true;
-            }
-        }
-        return false;
+        return uf.find(ceiling) == uf.find(floor);
     }
 
 
     public static void main(String[] args) {
-        /**
+        /*
         Percolation p = new Percolation(3);
         p.print();
         p.open(0,0);
@@ -84,8 +79,8 @@ public class Percolation {
         assertTrue(p.uf.connected(7,0));
         assertTrue(p.percolates());
         assertFalse(p.isOpen(0,2));
-        assertEquals(4, p.numberOfOpenSites());
-         */
+        assertEquals(4, p.numberOfOpenSites());*/
+
     }
 
 
@@ -115,6 +110,10 @@ public class Percolation {
         /* first row special case. */
         if (pos <= N - 1) {
             uf.union(pos, ceiling);
+        }
+        /* last row special case. */
+        if (row == N - 1) {
+            uf.union(pos, floor);
         }
     }
 

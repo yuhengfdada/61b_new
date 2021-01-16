@@ -15,6 +15,7 @@ public class Percolation {
      *     but will open and connect to any opening first-row element.
      */
     private WeightedQuickUnionUF uf;
+    private WeightedQuickUnionUF someuf;
     private int[] status; // 0 means BLOCKED, 1 means OPEN
     private int N;
     private int ceiling;
@@ -26,6 +27,7 @@ public class Percolation {
     public Percolation(int N) {
         if (N <= 0) throw new IllegalArgumentException();
         uf = new WeightedQuickUnionUF(N * N + 2);
+        someuf = new WeightedQuickUnionUF(N * N + 1);
         status = new int[N * N];
         this.N = N;
         this.ceiling = N*N;
@@ -49,7 +51,7 @@ public class Percolation {
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
         validate(row, col);
-        return uf.find(reduceDimension(row, col)) == uf.find(ceiling);
+        return someuf.find(reduceDimension(row, col)) == someuf.find(ceiling);
     }
 
     // number of open sites
@@ -59,27 +61,28 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        /* Right now takes linear time. */
         return uf.find(ceiling) == uf.find(floor);
     }
 
 
     public static void main(String[] args) {
-        /*
-        Percolation p = new Percolation(3);
+/*        Percolation p = new Percolation(4);
         p.print();
         p.open(0,0);
         p.print();
         assertEquals(true, p.isOpen(0,0));
-        assertTrue(p.uf.connected(0,9));
+        assertTrue(p.uf.connected(0,16));
         p.open(0, 1);
         p.open(1, 1);
         p.open(2, 1);
+        p.open(3, 1);
+        p.open(3, 3);
         p.print();
-        assertTrue(p.uf.connected(7,0));
+        assertTrue(p.uf.connected(9,0));
         assertTrue(p.percolates());
         assertFalse(p.isOpen(0,2));
-        assertEquals(4, p.numberOfOpenSites());*/
+        assertEquals(6, p.numberOfOpenSites());
+        assertFalse(p.isFull(3,3));*/
 
     }
 
@@ -105,11 +108,16 @@ public class Percolation {
         while (!ll.isEmpty()) {
             int n = ll.remove();
             /* Connect to open neighbors. */
-            if (isOpen(n)) uf.union(pos, n);
+            if (isOpen(n)) {
+                uf.union(pos, n);
+                someuf.union(pos, n);
+            }
+
         }
         /* first row special case. */
         if (pos <= N - 1) {
             uf.union(pos, ceiling);
+            someuf.union(pos, ceiling);
         }
         /* last row special case. */
         if (row == N - 1) {

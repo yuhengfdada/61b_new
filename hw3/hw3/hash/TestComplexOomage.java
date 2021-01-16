@@ -43,15 +43,19 @@ public class TestComplexOomage {
         List<Oomage> deadlyList = new ArrayList<>();
         // Your code here.
         List<Integer> params = new ArrayList();
-        /* Since Java represents 256^4 and above to be 0, we set the first 4 params to be 0. So the hashcode returns 0. */
-        for (int i = 0; i < 4; i += 1) {
-            params.add(0);
+        /* Since Java represents 256^4 and above to be 0, we set the last 4 params to be 1. So hashcode() returns the same every time. */
+        for (int i = 0; i < 1000; i += 1) {
+            int N = StdRandom.uniform(1, 10);
+            for (int j = 0; j < N; j += 1) {
+                params.add(StdRandom.uniform(0, 255));
+            }
+            for (int j = 0; j < 4; j += 1) {
+                params.add(1);
+            }
+            deadlyList.add(new ComplexOomage(params));
+            params.clear();
         }
-        int N = StdRandom.uniform(1, 10);
-        for (int i = 0; i < N; i += 1) {
-            params.add(StdRandom.uniform(0, 255));
-        }
-        deadlyList.add(new ComplexOomage(params));
+
         assertTrue(OomageTestUtility.haveNiceHashCodeSpread(deadlyList, 10));
     }
 

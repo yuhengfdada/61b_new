@@ -5,6 +5,9 @@ import java.util.*;
 public class SeparableEnemySolver {
 
     Graph g;
+    Map<String, Integer> colors = new HashMap<>();
+    Set<String> marked = new HashSet<>();
+    Queue<String> queue = new LinkedList<>();
 
     /**
      * Creates a SeparableEnemySolver for a file with name filename. Enemy
@@ -19,12 +22,37 @@ public class SeparableEnemySolver {
         this.g = g;
     }
 
+    /** 1 is red, 0 is blue */
+    boolean bfs() {
+        while (!queue.isEmpty()) {
+            String current = queue.poll();
+            marked.add(current);
+            for (String w : g.neighbors(current)) {
+                if (colors.containsKey(w) && colors.get(w).equals(colors.get(current))) return false;
+                if(!marked.contains(w)) {
+                    colors.put(w, 1 - colors.get(current));
+                    queue.add(w);
+                }
+            }
+        }
+        return true;
+    }
+
+    boolean bfsCaller() {
+        for (String s : g.labels()) {
+            if (!colors.containsKey(s)) {
+                queue.add(s);
+                colors.put(s, 1);
+                if (!bfs()) return false;
+            }
+        }
+        return true;
+    }
     /**
      * Returns true if input is separable, false otherwise.
      */
     public boolean isSeparable() {
-        // TODO: Fix me
-        return false;
+        return bfsCaller();
     }
 
 

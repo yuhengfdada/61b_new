@@ -1,13 +1,15 @@
 import edu.princeton.cs.algs4.Queue;
-import org.junit.Test;
-
-import static org.junit.Assert.assertTrue;
 
 public class QuickSort {
     /**
      * Returns a new queue that contains the given queues catenated together.
      *
      * The items in q2 will be catenated after all of the items in q1.
+     *
+     * @param q1  A Queue of items
+     * @param q2  A Queue of items
+     * @return    A Queue containing the items of 
+     *            q1 followed by the items of q2.
      */
     private static <Item extends Comparable> Queue<Item> catenate(Queue<Item> q1, Queue<Item> q2) {
         Queue<Item> catenated = new Queue<Item>();
@@ -20,7 +22,12 @@ public class QuickSort {
         return catenated;
     }
 
-    /** Returns a random item from the given queue. */
+    /**
+     * Returns a random item from the given queue.
+     *
+     * @param items  A Queue of items
+     * @return       A random item from items
+     */
     private static <Item extends Comparable> Item getRandomItem(Queue<Item> items) {
         int pivotIndex = (int) (Math.random() * items.size());
         Item pivot = null;
@@ -50,28 +57,18 @@ public class QuickSort {
     private static <Item extends Comparable> void partition(
             Queue<Item> unsorted, Item pivot,
             Queue<Item> less, Queue<Item> equal, Queue<Item> greater) {
-        for (Item i : unsorted) {
-            if (i.compareTo(pivot) > 0) greater.enqueue(i);
-            else if (i.compareTo(pivot) < 0) less.enqueue(i);
-            else equal.enqueue(i);
-        }
+        // Your code here!
     }
 
-    /** Returns a Queue that contains the given items sorted from least to greatest. */
+    /**
+     * Returns a Queue that contains the given items sorted from least to greatest.
+     *
+     * @param items  A Queue of possibly unsorted items
+     * @return       A Queue of sorted items
+     */
     public static <Item extends Comparable> Queue<Item> quickSort(
             Queue<Item> items) {
-        //if (items == null) return new Queue<Item>();
-        if (items.size() <= 1) return items;
-        Item pivot = getRandomItem(items);
-        Queue<Item> less = new Queue<>();
-        Queue<Item> equal = new Queue<>();
-        Queue<Item> greater = new Queue<>();
-        partition(items, pivot, less, equal, greater);
-        return catenate(catenate(quickSort(less), equal), quickSort(greater));
-    }
-
-    @Test
-    public static void main(String[] args) {
-
+        // Your code here!
+        return items;
     }
 }

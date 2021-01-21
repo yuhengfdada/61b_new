@@ -60,7 +60,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         swap(1, size);
         array.remove(size);
         size -= 1;
-        goToRightPlace(1, -1);
+        if (size != 0) goToRightPlace(1, -1);
         /* Take care of MAP */
         map.remove(res);
         return res;
@@ -101,7 +101,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     /* Swaps nodes at pos1 and pos2 in the PQ array.
    Also updates the map.
  */
-    private void swap(int pos1, int pos2) {
+    void swap(int pos1, int pos2) {
         PQNode<T> temp = array.get(pos1);
         array.set(pos1, array.get(pos2));
         array.set(pos2, temp);
@@ -109,13 +109,16 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         map.replace(array.get(pos2).key, pos2);
     }
 
+    boolean greater(int pos1, int pos2) {
+        return array.get(pos1).priority > array.get(pos2).priority;
+    }
     /* The most important function (in my opinion).
        Let the node at pos go to the right place.
        directionIdentifier == 1: up
        directionIdentifier == 0: undecided
        directionIdentifier == -1: down
     */
-    private void goToRightPlace(int pos, int directionIdentifier) {
+    void goToRightPlace(int pos, int directionIdentifier) {
         PQNode<T> me = array.get(pos);
         if (directionIdentifier == 1) {
             int parentIndex = parentIndex(pos);
@@ -125,24 +128,54 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
             swap(pos, parentIndex);
             goToRightPlace(parentIndex, 1); // recursive call
         } else if (directionIdentifier == -1) {
+            int smaller = 2 * pos;
+            int left = 2 * pos;
+            if (left > size) return;
+            if (left < size && greater(left, left+1)) smaller++;
+            if (!greater(pos, smaller)) return;
+            swap(pos, smaller);
+            goToRightPlace(smaller, -1);
+            /**
             int leftChildIndex = leftChildIndex(pos);
             if (leftChildIndex > size) return; // reached bottom
             PQNode<T> leftChild = array.get(leftChildIndex);
-            if (me.priority > leftChild.priority) {
-                swap(pos, leftChildIndex);
-                goToRightPlace(leftChildIndex, -1); // recursive call
-            } else {
-                int rightChildIndex = rightChildIndex(pos);
-                if (rightChildIndex > size) return; // reached bottom
-                PQNode<T> rightChild = array.get(rightChildIndex);
-                if (me.priority > rightChild.priority) {
-                    swap(pos, rightChildIndex);
-                    goToRightPlace(rightChildIndex, -1); // recursive call
+            int rightChildIndex = rightChildIndex(pos);
+            if (rightChildIndex > size) { // reached bottom
+                if (me.priority > leftChild.priority) {
+                    swap(pos, leftChildIndex);
+                    goToRightPlace(leftChildIndex, -1); // recursive call
                 }
             }
+            else {
+                PQNode<T> rightChild = array.get(rightChildIndex);
+                if (leftChild.priority <= rightChild.priority) {
+                    if (me.priority > leftChild.priority) {
+                        swap(pos, leftChildIndex);
+                        goToRightPlace(leftChildIndex, -1); // recursive call
+                    } else {
+                        if (me.priority > rightChild.priority) {
+                            swap(pos, rightChildIndex);
+                            goToRightPlace(rightChildIndex, -1); // recursive call
+                        }
+                    }
+                } else {
+                    if (me.priority > rightChild.priority) {
+                        swap(pos, rightChildIndex);
+                        goToRightPlace(rightChildIndex, -1); // recursive call
+                    } else {
+                        if (me.priority > leftChild.priority) {
+                            swap(pos, leftChildIndex);
+                            goToRightPlace(leftChildIndex, -1); // recursive call
+                        }
+                    }
+                }
+            }
+             */
+
+
         } else {
             int parentIndex = parentIndex(pos);
-            if (parentIndex == 0) return;  // reached root
+            if (parentIndex == 0) goToRightPlace(pos, -1);  // reached root, turn around!
             PQNode<T> parent = array.get(parentIndex);
             if (parent.priority <= me.priority) {
                 goToRightPlace(pos, -1); // reached upper limit, turn around!
@@ -150,5 +183,16 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
                 goToRightPlace(pos, 1);
             }
         }
+    }
+    void print() {
+        int jump = 0;
+        for (PQNode<T> node : array) {
+            if (jump == 0) {
+                jump += 1;
+                continue;
+            }
+            System.out.println(node.key+" "+node.priority);
+        }
+        System.out.println();
     }
 }

@@ -19,6 +19,17 @@ public class NaiveMinPQ<T> implements ExtrinsicMinPQ<T> {
         items = new ArrayList<>();
     }
 
+    String myToString() {
+        items.sort((i1, i2) -> (int) (i1.getPriority() - i2.getPriority()));
+        String res = "";
+        int jump = 0;
+        for (PriorityNode node : items) {
+            res += node.item;
+            res += " ";
+            res += node.priority;
+        }
+        return res;
+    }
     /** Note this method does not throw the proper exception,
      *  otherwise it is painfully slow (linear time).
      */

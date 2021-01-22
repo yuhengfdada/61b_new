@@ -89,6 +89,7 @@ public class MergeSort {
         /** Trying to do in-place sorting here. */
         Queue<Queue<Item>> queue = makeSingleItemQueues(items);
         int rest = queue.size();
+        if (rest == 0) return items;
         while (!(queue.size() == 1)) { // When queue only has one item, stop.
             Queue<Item> q1 = queue.dequeue();
             Queue<Item> q2 = new Queue<>();

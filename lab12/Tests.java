@@ -5,6 +5,13 @@ import static org.junit.Assert.assertTrue;
 
 public class Tests {
     @Test
+    public void testMergeSort() {
+        Queue<String> tas = new Queue<String>();
+        tas = MergeSort.mergeSort(tas);
+        System.out.println(tas.size());
+        assertTrue(isSorted(tas));
+    }
+    @Test
     public void testQuickSort() {
         Queue<String> tas = new Queue<String>();
         tas.enqueue("Joe");
